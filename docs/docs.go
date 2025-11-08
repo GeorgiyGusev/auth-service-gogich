@@ -376,7 +376,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/auth/api/v1",
 	Schemes:          []string{},
 	Title:            "",
 	Description:      "",
