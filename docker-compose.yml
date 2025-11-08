@@ -1,5 +1,6 @@
 services:
   db:
+    container_name: "auth-postgres"
     image: postgres:16
     restart: always
     environment:
@@ -12,6 +13,7 @@ services:
       - local
 
   redis:
+    container_name: "auth-redis"
     image: redis:latest
     restart: always
     volumes:
