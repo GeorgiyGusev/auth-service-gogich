@@ -25,7 +25,7 @@ services:
   auth-service-gogich:
     build:
       context: .
-      dockerfile: Dockefile
+      dockerfile: Dockerfile
     env_file: .env
     labels:
       - "traefik.enable=true"
