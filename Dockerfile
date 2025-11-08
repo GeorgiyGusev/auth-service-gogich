@@ -11,7 +11,7 @@ RUN go mod download
 COPY . .
 
 # Билдим статический бинарник
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags='-w -s -extldflags "-static"' -a -o main ./cmd/main
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags='-w -s -extldflags "-static"' -a -o main ./cmd
 
 # Используем distroless для безопасности
 FROM gcr.io/distroless/static-debian12
