@@ -5,12 +5,15 @@ import (
 	"log/slog"
 	"os"
 
+	_ "github.com/KontoraMarketel/auth-service-gogich/docs"
 	"github.com/KontoraMarketel/auth-service-gogich/internal"
+	"github.com/KontoraMarketel/auth-service-gogich/internal/clients"
 	"github.com/KontoraMarketel/auth-service-gogich/internal/conns"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	slogfiber "github.com/samber/slog-fiber"
+	fiberSwagger "github.com/swaggo/fiber-swagger"
 )
 
 func main() {
@@ -32,13 +35,27 @@ func main() {
 		AllowMethods: "*",
 	}))
 
-	postgres_conn, err := conns.NewConn()
+	postgresConn, err := conns.NewPostgresConn()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	identityRepoImpl := internal.NewIdentityRepoImpl(postgres_conn)
-	internal.NewHandler(identityRepoImpl).RegisterHandler(app)
+	redisClient, err := conns.NewRedisConn()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	log.Fatal(app.Listen(":3000"))
+	sessionsRepo := internal.NewSessionRepository(redisClient)
+
+	cryptoServiceClient, err := clients.NewCryptoServiceClient()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	userRepoImpl := internal.NewUserRepoImpl(postgresConn)
+	internal.NewHandler(userRepoImpl, cryptoServiceClient, sessionsRepo).RegisterHandler(app)
+
+	app.Get("/swagger/*", fiberSwagger.WrapHandler)
+
+	log.Fatal(app.Listen(":3001"))
 }

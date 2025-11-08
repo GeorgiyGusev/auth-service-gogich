@@ -10,33 +10,31 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type IdentityRepoImpl struct {
+type UserRepoImpl struct {
 	db *sqlx.DB
 }
 
-func NewIdentityRepoImpl(db *sqlx.DB) *IdentityRepoImpl {
-	return &IdentityRepoImpl{
+func NewUserRepoImpl(db *sqlx.DB) *UserRepoImpl {
+	return &UserRepoImpl{
 		db,
 	}
 }
-func (r *IdentityRepoImpl) CreateIdentity(
+func (r *UserRepoImpl) CreateUser(
 	ctx context.Context,
-	identity string,
-	identityType string,
+	email string,
 	passwordHash string,
-	hashType string,
-) (*CreateIdentityResponse, error) {
+) (*CreateUserResponse, error) {
 	const query = `
-	INSERT INTO identities.identities(identity, identity_type, password_hash, hash_type)
-	VALUES ($1, $2, $3, $4) 
-	RETURNING id, identity
+	INSERT INTO identities.users(email, password_hash)
+	VALUES ($1, $2) 
+	RETURNING id, email
 	`
-	var result CreateIdentityResponse
-	if err := r.db.GetContext(ctx, &result, query, identity, identityType, passwordHash, hashType); err != nil {
+	var result CreateUserResponse
+	if err := r.db.GetContext(ctx, &result, query, email, passwordHash); err != nil {
 		if IsUniqueConstraintError(err) {
 			return nil, &UniqueConstraintError{
-				Field:   "identity",
-				Message: "identity already exists",
+				Err:     err,
+				Message: "user already exists",
 			}
 		}
 		return nil, err
@@ -44,35 +42,35 @@ func (r *IdentityRepoImpl) CreateIdentity(
 	return &result, nil
 }
 
-func (r *IdentityRepoImpl) GetIdentityById(
+func (r *UserRepoImpl) GetUserById(
 	ctx context.Context,
 	id string,
-) (*Identity, error) {
+) (*User, error) {
 	const query = `
-	SELECT id, identity, identity_type, password_hash, hash_type, created_at, updated_at 
-	FROM identities.identities 
+	SELECT id, email, password_hash, created_at, updated_at 
+	FROM identities.users 
 	WHERE id = $1
 	LIMIT 1
 	`
-	var result Identity
+	var result User
 	if err := r.db.GetContext(ctx, &result, query, id); err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-func (r *IdentityRepoImpl) GetIdentity(
+func (r *UserRepoImpl) GetUserByEmail(
 	ctx context.Context,
-	identity string,
-) (*Identity, error) {
+	email string,
+) (*User, error) {
 	const query = `
-	SELECT id, identity, identity_type, password_hash, hash_type, created_at, updated_at 
-	FROM identities.identities 
-	WHERE identity = $1
+	SELECT id, email, password_hash, created_at, updated_at 
+	FROM identities.users 
+	WHERE email = $1
 	LIMIT 1
 	`
-	var result Identity
-	if err := r.db.GetContext(ctx, &result, query, identity); err != nil {
+	var result User
+	if err := r.db.GetContext(ctx, &result, query, email); err != nil {
 		return nil, err
 	}
 	return &result, nil
@@ -80,12 +78,12 @@ func (r *IdentityRepoImpl) GetIdentity(
 
 // UniqueConstraintError кастомная ошибка для нарушения уникальности
 type UniqueConstraintError struct {
-	Field   string
 	Message string
+	Err     error
 }
 
 func (e *UniqueConstraintError) Error() string {
-	return fmt.Sprintf("%s: %s", e.Field, e.Message)
+	return fmt.Sprintf("%s : %s", e.Err.Error(), e.Message)
 }
 
 // IsUniqueConstraintError проверяет нарушение уникальности

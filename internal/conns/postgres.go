@@ -8,7 +8,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func NewConn() (*sqlx.DB, error) {
+func NewPostgresConn() (*sqlx.DB, error) {
 	dsn := os.Getenv("POSTGRES_DSN")
 	if dsn == "" {
 		return nil, errors.New("POSTGRES_DSN postgres dsn is blank")
