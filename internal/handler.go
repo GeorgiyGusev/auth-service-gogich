@@ -449,7 +449,7 @@ func (h *Handler) logout(ctx *fiber.Ctx) error {
 }
 
 // RegisterHandler регистрирует обработчики маршрутов
-func (h *Handler) RegisterHandler(server *fiber.App) {
+func (h *Handler) RegisterHandler(server fiber.Router) {
 	identityGroup := server.Group("/identity")
 	{
 		identityGroup.Post("/sign-up", h.createUser)

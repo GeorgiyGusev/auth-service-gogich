@@ -34,6 +34,7 @@ func main() {
 		AllowHeaders: "*",
 		AllowMethods: "*",
 	}))
+	baseGroup := app.Group("/auth/api/v1")
 
 	postgresConn, err := conns.NewPostgresConn()
 	if err != nil {
@@ -53,9 +54,9 @@ func main() {
 	}
 
 	userRepoImpl := internal.NewUserRepoImpl(postgresConn)
-	internal.NewHandler(userRepoImpl, cryptoServiceClient, sessionsRepo).RegisterHandler(app)
+	internal.NewHandler(userRepoImpl, cryptoServiceClient, sessionsRepo).RegisterHandler(baseGroup)
 
-	app.Get("/swagger/*", fiberSwagger.WrapHandler)
+	baseGroup.Get("/swagger/*", fiberSwagger.WrapHandler)
 
-	log.Fatal(app.Listen(":3001"))
+	log.Fatal(app.Listen(":3000"))
 }

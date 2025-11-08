@@ -6,20 +6,43 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - local
 
   redis:
     image: redis:latest
     restart: always
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
     command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    networks:
+      - local
+
+  auth-service-gogich:
+    build:
+      context: .
+      dockerfile: Dockefile
+    env_file: .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth-service.rule=Host(`api.kontora-dev.ru`) && PathPrefix(`/auth/api/v1`)"
+      - "traefik.http.routers.auth-service.entrypoints=websecure"
+      - "traefik.http.routers.auth-service.tls.certresolver=myresolver"
+      - "traefik.http.services.auth-service.loadbalancer.server.port=3000"
+      - "traefik.http.routers.auth-service.service=auth-service"
+      - "traefik.docker.network=global"
+    restart: unless-stopped
+    networks:
+      - local
+      - global
 
 volumes:
   db_data:
   redis_data:
+
+networks:
+  local:
+  global:
+    external: true
