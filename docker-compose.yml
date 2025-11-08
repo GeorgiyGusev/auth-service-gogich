@@ -3,6 +3,8 @@ services:
     container_name: "auth-postgres"
     image: postgres:16
     restart: always
+    ports:
+      - "5433:5432"
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
