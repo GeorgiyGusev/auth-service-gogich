@@ -5,18 +5,16 @@ import (
 	"log/slog"
 	"os"
 
-	_ "github.com/KontoraMarketel/auth-service-gogich/docs"
 	"github.com/KontoraMarketel/auth-service-gogich/internal"
 	"github.com/KontoraMarketel/auth-service-gogich/internal/clients"
 	"github.com/KontoraMarketel/auth-service-gogich/internal/conns"
+	"github.com/KontoraMarketel/auth-service-gogich/internal/docs"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	slogfiber "github.com/samber/slog-fiber"
-	fiberSwagger "github.com/swaggo/fiber-swagger"
 )
 
-// @BasePath  /auth/api/v1
 func main() {
 	err := godotenv.Load()
 
@@ -33,6 +31,8 @@ func main() {
 		AllowMethods: "*",
 	}))
 	baseGroup := app.Group("/auth/api/v1")
+
+	docs.NewHandler().Register(baseGroup)
 
 	postgresConn, err := conns.NewPostgresConn()
 	if err != nil {
@@ -53,8 +53,6 @@ func main() {
 
 	userRepoImpl := internal.NewUserRepoImpl(postgresConn)
 	internal.NewHandler(userRepoImpl, cryptoServiceClient, sessionsRepo).RegisterHandler(baseGroup)
-
-	baseGroup.Get("/swagger/*", fiberSwagger.WrapHandler)
 
 	log.Fatal(app.Listen(":3000"))
 }

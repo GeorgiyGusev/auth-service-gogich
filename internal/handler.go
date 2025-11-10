@@ -31,19 +31,6 @@ func NewHandler(userRepo UserRepo, cryptoServiceClient *clients.CryptoServiceCli
 	}
 }
 
-// CreateUser godoc
-// @Summary Регистрация нового пользователя
-// @ID createUser
-// @Description Создает нового пользователя в системе
-// @Tags identity
-// @Accept json
-// @Produce json
-// @Param request body CreateUserRequest true "Данные для регистрации"
-// @Success 201 {object} CreateUserResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 409 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
-// @Router /identity/sign-up [post]
 func (h *Handler) createUser(ctx *fiber.Ctx) error {
 	var req CreateUserRequest
 
@@ -87,20 +74,6 @@ func (h *Handler) createUser(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusCreated).JSON(resp)
 }
 
-// Login godoc
-// @Summary Аутентификация пользователя
-// @ID login
-// @Description Выполняет вход пользователя и возвращает токены доступа
-// @Tags identity
-// @Accept json
-// @Produce json
-// @Param request body LoginRequest true "Данные для входа"
-// @Success 200 {object} LoginResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
-// @Router /identity/sign-in [post]
 func (h *Handler) login(ctx *fiber.Ctx) error {
 	var req LoginRequest
 
@@ -195,19 +168,6 @@ func (h *Handler) login(ctx *fiber.Ctx) error {
 	})
 }
 
-// Refresh godoc
-// @Summary Обновление токенов
-// @ID refresh
-// @Description Обновляет access и refresh токены с использованием валидного refresh токена
-// @Tags identity
-// @Accept json
-// @Produce json
-// @Param request body RefreshRequest true "Refresh token"
-// @Success 200 {object} RefreshResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
-// @Router /identity/refresh [post]
 func (h *Handler) refresh(ctx *fiber.Ctx) error {
 	var req RefreshRequest
 
@@ -360,19 +320,6 @@ func (h *Handler) refresh(ctx *fiber.Ctx) error {
 	})
 }
 
-// Logout godoc
-// @Summary Выход из системы
-// @ID logout
-// @Description Выполняет выход пользователя и блокирует сессию
-// @Tags identity
-// @Accept json
-// @Produce json
-// @Param request body LogoutRequest true "Refresh token для выхода"
-// @Success 200 {object} MessageResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
-// @Router /identity/logout [post]
 func (h *Handler) logout(ctx *fiber.Ctx) error {
 	var req LogoutRequest
 
