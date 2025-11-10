@@ -16,6 +16,7 @@ paths:
     post:
       summary: Регистрация нового пользователя
       description: Создает нового пользователя в системе
+      operationId: signUp
       tags:
         - Identity
       requestBody:
@@ -54,6 +55,7 @@ paths:
     post:
       summary: Вход в систему
       description: Аутентификация пользователя и получение токенов доступа
+      operationId: signIn
       tags:
         - Identity
       requestBody:
@@ -98,6 +100,7 @@ paths:
     post:
       summary: Обновление токенов
       description: Обновление access и refresh токенов с использованием текущего refresh токена
+      operationId: refreshToken
       tags:
         - Identity
       requestBody:
@@ -136,6 +139,7 @@ paths:
     post:
       summary: Выход из системы
       description: Завершение сессии пользователя и блокировка refresh токена
+      operationId: logout
       tags:
         - Identity
       requestBody:
