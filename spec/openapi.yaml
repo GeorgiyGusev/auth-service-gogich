@@ -1,16 +1,13 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
   title: Auth Service API
   description: Сервис аутентификации и управления пользователями
   version: 1.0.0
-  contact:
-    name: API Support
-    email: support@example.com
 
 servers:
   - url: http://localhost:3000/auth/api/v1
     description: Local Development server
-  - url: http://api.kontora-dev.ru/auth/api/v1
+  - url: https://api.kontora-dev.ru/auth/api/v1
     description: Timeweb Development server
 
 paths:

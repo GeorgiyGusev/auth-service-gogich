@@ -17,13 +17,18 @@ func NewHandler() *Handler {
 func (h *Handler) Register(router fiber.Router) {
 	docsGroup := router.Group("/docs")
 	{
-		docsGroup.Get("/openapi.yaml", h.serveSpec)
+		docsGroup.Get("/openapi.yaml", h.serveSpecYaml)
+		docsGroup.Get("/openapi.json", h.serveSpecJson)
 		docsGroup.Get("/", h.serveSwaggerUI)
 	}
 }
 
-func (h *Handler) serveSpec(c *fiber.Ctx) error {
+func (h *Handler) serveSpecYaml(c *fiber.Ctx) error {
 	return c.SendFile("openapi.yaml")
+}
+
+func (h *Handler) serveSpecJson(c *fiber.Ctx) error {
+	return c.SendFile("openapi.json")
 }
 
 func (h *Handler) serveSwaggerUI(c *fiber.Ctx) error {
@@ -36,10 +41,10 @@ func (h *Handler) serveSwaggerUI(c *fiber.Ctx) error {
     </head>
     <body>
         <div id="swagger-ui"></div>
-        <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+        <script src="https://unpkg.com/swagger-ui-dist@5.30.2/swagger-ui-bundle.js"></script>
         <script>
             SwaggerUIBundle({
-                url: '/auth/api/v1/docs/openapi.yaml',
+                url: '/auth/api/v1/docs/openapi.json',
                 dom_id: '#swagger-ui',
             });
         </script>

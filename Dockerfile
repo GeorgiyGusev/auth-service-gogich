@@ -21,6 +21,7 @@ WORKDIR /app
 # Копируем бинарник
 COPY --from=builder /app/main .
 COPY --from=builder /app/spec/openapi.yaml .
+COPY --from=builder /app/spec/openapi.json .
 
 # Пользователь без привилегий
 USER nonroot:nonroot
