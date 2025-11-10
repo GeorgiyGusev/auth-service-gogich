@@ -3,6 +3,7 @@
     "info": {
         "contact": {}
     },
+    "basePath": "/auth/api/v1",
     "paths": {
         "/identity/logout": {
             "post": {
@@ -17,6 +18,7 @@
                     "identity"
                 ],
                 "summary": "Выход из системы",
+                "operationId": "logout",
                 "parameters": [
                     {
                         "description": "Refresh token для выхода",
@@ -69,6 +71,7 @@
                     "identity"
                 ],
                 "summary": "Обновление токенов",
+                "operationId": "refresh",
                 "parameters": [
                     {
                         "description": "Refresh token",
@@ -121,6 +124,7 @@
                     "identity"
                 ],
                 "summary": "Аутентификация пользователя",
+                "operationId": "login",
                 "parameters": [
                     {
                         "description": "Данные для входа",
@@ -179,6 +183,7 @@
                     "identity"
                 ],
                 "summary": "Регистрация нового пользователя",
+                "operationId": "createUser",
                 "parameters": [
                     {
                         "description": "Данные для регистрации",

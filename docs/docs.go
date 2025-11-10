@@ -28,6 +28,7 @@ const docTemplate = `{
                     "identity"
                 ],
                 "summary": "Выход из системы",
+                "operationId": "logout",
                 "parameters": [
                     {
                         "description": "Refresh token для выхода",
@@ -80,6 +81,7 @@ const docTemplate = `{
                     "identity"
                 ],
                 "summary": "Обновление токенов",
+                "operationId": "refresh",
                 "parameters": [
                     {
                         "description": "Refresh token",
@@ -132,6 +134,7 @@ const docTemplate = `{
                     "identity"
                 ],
                 "summary": "Аутентификация пользователя",
+                "operationId": "login",
                 "parameters": [
                     {
                         "description": "Данные для входа",
@@ -190,6 +193,7 @@ const docTemplate = `{
                     "identity"
                 ],
                 "summary": "Регистрация нового пользователя",
+                "operationId": "createUser",
                 "parameters": [
                     {
                         "description": "Данные для регистрации",

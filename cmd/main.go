@@ -16,6 +16,7 @@ import (
 	fiberSwagger "github.com/swaggo/fiber-swagger"
 )
 
+// @BasePath  /auth/api/v1
 func main() {
 	err := godotenv.Load()
 

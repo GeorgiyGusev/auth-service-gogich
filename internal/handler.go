@@ -33,6 +33,7 @@ func NewHandler(userRepo UserRepo, cryptoServiceClient *clients.CryptoServiceCli
 
 // CreateUser godoc
 // @Summary Регистрация нового пользователя
+// @ID createUser
 // @Description Создает нового пользователя в системе
 // @Tags identity
 // @Accept json
@@ -88,6 +89,7 @@ func (h *Handler) createUser(ctx *fiber.Ctx) error {
 
 // Login godoc
 // @Summary Аутентификация пользователя
+// @ID login
 // @Description Выполняет вход пользователя и возвращает токены доступа
 // @Tags identity
 // @Accept json
@@ -195,6 +197,7 @@ func (h *Handler) login(ctx *fiber.Ctx) error {
 
 // Refresh godoc
 // @Summary Обновление токенов
+// @ID refresh
 // @Description Обновляет access и refresh токены с использованием валидного refresh токена
 // @Tags identity
 // @Accept json
@@ -359,6 +362,7 @@ func (h *Handler) refresh(ctx *fiber.Ctx) error {
 
 // Logout godoc
 // @Summary Выход из системы
+// @ID logout
 // @Description Выполняет выход пользователя и блокирует сессию
 // @Tags identity
 // @Accept json

@@ -1,3 +1,4 @@
+basePath: /auth/api/v1
 definitions:
   internal.CreateUserRequest:
     properties:
@@ -104,6 +105,7 @@ paths:
       consumes:
       - application/json
       description: Выполняет выход пользователя и блокирует сессию
+      operationId: logout
       parameters:
       - description: Refresh token для выхода
         in: body
@@ -139,6 +141,7 @@ paths:
       - application/json
       description: Обновляет access и refresh токены с использованием валидного refresh
         токена
+      operationId: refresh
       parameters:
       - description: Refresh token
         in: body
@@ -173,6 +176,7 @@ paths:
       consumes:
       - application/json
       description: Выполняет вход пользователя и возвращает токены доступа
+      operationId: login
       parameters:
       - description: Данные для входа
         in: body
@@ -211,6 +215,7 @@ paths:
       consumes:
       - application/json
       description: Создает нового пользователя в системе
+      operationId: createUser
       parameters:
       - description: Данные для регистрации
         in: body
