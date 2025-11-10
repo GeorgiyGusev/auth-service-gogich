@@ -23,15 +23,7 @@ func (h *Handler) Register(router fiber.Router) {
 }
 
 func (h *Handler) serveSpec(c *fiber.Ctx) error {
-	specData, err := specFS.ReadFile("openapi.yaml")
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{
-			"error": "Cannot read OpenAPI spec",
-		})
-	}
-
-	c.Set("Content-Type", "application/yaml")
-	return c.Send(specData)
+	return c.SendFile("openapi.yaml")
 }
 
 func (h *Handler) serveSwaggerUI(c *fiber.Ctx) error {
