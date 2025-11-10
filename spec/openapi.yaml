@@ -9,7 +9,9 @@ info:
 
 servers:
   - url: http://localhost:3000/auth/api/v1
-    description: Development server
+    description: Local Development server
+  - url: http://api.kontora-dev.ru/auth/api/v1
+    description: Timeweb Development server
 
 paths:
   /identity/sign-up:
