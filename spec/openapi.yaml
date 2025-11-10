@@ -335,13 +335,6 @@ components:
       example:
         message: Successfully logged out
 
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: JWT токен аутентификации
-
 tags:
   - name: Identity
     description: Операции аутентификации и управления пользователями
