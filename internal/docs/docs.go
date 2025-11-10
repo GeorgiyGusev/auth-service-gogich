@@ -37,7 +37,7 @@ func (h *Handler) serveSwaggerUI(c *fiber.Ctx) error {
     <html>
     <head>
         <title>Auth Service API</title>
-        <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css">
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.30.2/swagger-ui.css">
     </head>
     <body>
         <div id="swagger-ui"></div>
