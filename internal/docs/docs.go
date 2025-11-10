@@ -39,7 +39,7 @@ func (h *Handler) serveSwaggerUI(c *fiber.Ctx) error {
         <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
         <script>
             SwaggerUIBundle({
-                url: '/docs/openapi.yaml',
+                url: '/auth/api/v1/docs/openapi.yaml',
                 dom_id: '#swagger-ui',
             });
         </script>
